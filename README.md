@@ -87,3 +87,6 @@ curl -H "Content-Type: application/json" -X PUT --data '{"iban":"DE9012345678123
 curl -H "Content-Type: application/json" -X PUT --data '{"iban":"DE90123456781234567891","receivingIban":"DE90123456781234567892","amount":"100.00"}' "http://localhost:8080/v1/transfer"
 ```
 
+### Runs github-actions on push
+- Java CI with Maven
+- CodeQL
