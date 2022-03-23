@@ -44,10 +44,10 @@ public class AccountController {
   private AccountTypesInputTransformer accountTypesInputTransformer;
 
   @PostMapping("/create/checking")
-  public ResponseEntity<AccountOutputDTO> createCheckingAccount(@RequestBody @Valid AccountInput accountInput) {
-    Account checkingAccount = accountService.createCheckingAccount(accountInput);
+  public ResponseEntity<AccountOutputDTO> createCheckingAccount(@RequestBody @Valid AccountInput transaction) {
+    Account checkingAccount = accountService.createCheckingAccount(transaction);
     AccountOutputDTO accountOutput = accountOutputTransformer.transformAccount(checkingAccount);
-    log.info(accountInput.getIban() + " created");
+    log.info(transaction.getIban() + " created");
     return ResponseEntity.status(CREATED).body(accountOutput);
   }
 
@@ -60,25 +60,25 @@ public class AccountController {
   }
 
   @PostMapping("/create/privateloan")
-  public ResponseEntity<AccountOutputDTO> createPrivateLoanAccount(@RequestBody @Valid AccountInput accountInput) {
-    Account privateLoadAccount = accountService.createPrivateLoadAccount(accountInput);
+  public ResponseEntity<AccountOutputDTO> createPrivateLoanAccount(@RequestBody @Valid AccountInput transaction) {
+    Account privateLoadAccount = accountService.createPrivateLoadAccount(transaction);
     AccountOutputDTO accountOutput = accountOutputTransformer.transformAccount(privateLoadAccount);
-    log.info(accountInput.getIban() + " created");
+    log.info(transaction.getIban() + " created");
     return ResponseEntity.status(CREATED).body(accountOutput);
   }
 
   @PutMapping("/lock")
-  private ResponseEntity<String> lockAccount(@RequestBody @Valid AccountInput accountInput) {
-    accountService.lockAccount(accountInput);
-    log.info(accountInput.getIban() + " was locked");
-    return ResponseEntity.status(OK).body("Account: " + accountInput.getIban() + " has been locked");
+  private ResponseEntity<String> lockAccount(@RequestBody @Valid AccountInput transaction) {
+    accountService.lockAccount(transaction);
+    log.info(transaction.getIban() + " was locked");
+    return ResponseEntity.status(OK).body("Account: " + transaction.getIban() + " has been locked");
   }
 
   @PutMapping("/unlock")
-  private ResponseEntity<String> unlockAccount(@RequestBody @Valid AccountInput accountInput) {
-    accountService.unlockAccount(accountInput);
-    log.info(accountInput.getIban() + " was unlocked");
-    return ResponseEntity.status(OK).body("Account: " + accountInput.getIban() + " has been unlocked");
+  private ResponseEntity<String> unlockAccount(@RequestBody @Valid AccountInput transaction) {
+    accountService.unlockAccount(transaction);
+    log.info(transaction.getIban() + " was unlocked");
+    return ResponseEntity.status(OK).body("Account: " + transaction.getIban() + " has been unlocked");
   }
 
   @GetMapping("/{iban}/balance")

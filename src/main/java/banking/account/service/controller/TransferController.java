@@ -27,9 +27,9 @@ public class TransferController {
   private TransferService transferService;
 
   @PutMapping("/transfer")
-  public ResponseEntity<String> transfer(@Valid @RequestBody AccountTransferInput accountTransferInput) {
-    boolean transferPossible = transferService.transfer(accountTransferInput);
-    String result = buildResult(accountTransferInput, transferPossible);
+  public ResponseEntity<String> transfer(@Valid @RequestBody AccountTransferInput transaction) {
+    boolean transferPossible = transferService.transfer(transaction);
+    String result = buildResult(transaction, transferPossible);
     log.info(result);
     if (transferPossible) {
       return ResponseEntity.status(HttpStatus.OK).body(result);

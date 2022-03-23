@@ -4,5 +4,5 @@ import banking.account.service.domain.input.AccountTransferInput;
 
 public interface TransferService {
 
-  boolean transfer(AccountTransferInput accountTransferInput);
+  boolean transfer(AccountTransferInput transaction);
 }

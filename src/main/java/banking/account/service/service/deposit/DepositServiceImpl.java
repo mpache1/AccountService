@@ -21,12 +21,12 @@ public class DepositServiceImpl extends BalanceService implements DepositService
   private AccountLoaderService accountLoaderService;
 
   @Override
-  public Account deposit(AccountDepositInput accountDepositInput) {
-    Account account = accountLoaderService.loadAccountByIban(accountDepositInput.getIban());
+  public Account deposit(AccountDepositInput transaction) {
+    Account account = accountLoaderService.loadAccountByIban(transaction.getIban());
     if (account.isLocked()) {
-      throw new AccountLockedException(accountDepositInput.getIban());
+      throw new AccountLockedException(transaction.getIban());
     }
-    BigDecimal amount = accountDepositInput.getAmount();
+    BigDecimal amount = transaction.getAmount();
     addAmount(account, amount);
     accountHistoryService.updateAccountHistoryForDeposit(account, amount);
     return accountRepository.save(account);

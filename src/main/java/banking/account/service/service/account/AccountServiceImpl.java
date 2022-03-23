@@ -23,29 +23,29 @@ public class AccountServiceImpl implements AccountService {
   private AccountLoaderService accountLoaderService;
 
   @Override
-  public Account createCheckingAccount(AccountInput accountInput) {
-    return accountRepository.save(new CheckingAccount(accountInput.getIban()));
+  public Account createCheckingAccount(AccountInput transaction) {
+    return accountRepository.save(new CheckingAccount(transaction.getIban()));
   }
 
   @Override
-  public Account createPrivateLoadAccount(AccountInput accountInput) {
-    return accountRepository.save(new PrivateLoanAccount(accountInput.getIban()));
+  public Account createPrivateLoadAccount(AccountInput transaction) {
+    return accountRepository.save(new PrivateLoanAccount(transaction.getIban()));
   }
 
   @Override
-  public Account createSavingAccount(AccountSavingInput accountInput) {
-    CheckingAccount checkingAccount = accountLoaderService.loadCheckingAccountByIban(accountInput.getAssociatedIban());
-    return accountRepository.save(new SavingsAccount(accountInput.getIban(), checkingAccount.getIban()));
+  public Account createSavingAccount(AccountSavingInput transaction) {
+    CheckingAccount checkingAccount = accountLoaderService.loadCheckingAccountByIban(transaction.getAssociatedIban());
+    return accountRepository.save(new SavingsAccount(transaction.getIban(), checkingAccount.getIban()));
   }
 
   @Override
-  public void lockAccount(AccountInput accountInput) {
-    lockAccount(accountInput.getIban(), true);
+  public void lockAccount(AccountInput transaction) {
+    lockAccount(transaction.getIban(), true);
   }
 
   @Override
-  public void unlockAccount(AccountInput accountInput) {
-    lockAccount(accountInput.getIban(), false);
+  public void unlockAccount(AccountInput transaction) {
+    lockAccount(transaction.getIban(), false);
   }
 
   @Override

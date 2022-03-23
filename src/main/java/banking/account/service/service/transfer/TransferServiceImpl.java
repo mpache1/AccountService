@@ -32,10 +32,10 @@ public class TransferServiceImpl implements TransferService {
   }
 
   @Override
-  public boolean transfer(AccountTransferInput accountInput) {
-    Account sending = loadAndCheckAccount(accountInput.getIban());
-    Account receiving = loadAndCheckAccount(accountInput.getReceivingIban());
-    boolean transferPossible = transferExecuterMap.get(sending.getClass()).transfer(sending, receiving, accountInput.getAmount());
+  public boolean transfer(AccountTransferInput transaction) {
+    Account sending = loadAndCheckAccount(transaction.getIban());
+    Account receiving = loadAndCheckAccount(transaction.getReceivingIban());
+    boolean transferPossible = transferExecuterMap.get(sending.getClass()).transfer(sending, receiving, transaction.getAmount());
     if (transferPossible) {
       accountRepository.save(sending);
       accountRepository.save(receiving);

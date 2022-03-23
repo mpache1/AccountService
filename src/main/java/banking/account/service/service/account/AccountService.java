@@ -9,17 +9,17 @@ import java.util.List;
 
 public interface AccountService {
 
-  Account createCheckingAccount(AccountInput accountInput);
+  Account createCheckingAccount(AccountInput transaction);
 
-  Account createSavingAccount(AccountSavingInput accountInput);
+  Account createSavingAccount(AccountSavingInput transaction);
 
-  Account createPrivateLoadAccount(AccountInput accountInput);
+  Account createPrivateLoadAccount(AccountInput transaction);
 
   Account findAccount(String iban);
 
-  void lockAccount(AccountInput accountInput);
+  void lockAccount(AccountInput transaction);
 
-  void unlockAccount(AccountInput accountInput);
+  void unlockAccount(AccountInput transaction);
 
   List<Account> getAccounts(List<AccountType> accountTypes);
 }
