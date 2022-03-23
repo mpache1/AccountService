@@ -24,6 +24,9 @@ A basic Banking-Account Service
     - Checking Accounts can transfer and receive money without restrictions
     - Saving-Accounts can only transfer money to their associated Accounts
 
+### Codeowner
+- [@mpache1](https://github.com/mpache1)
+
 
 ### Requirements
  - Java 17.*
