@@ -24,6 +24,8 @@ import static javax.persistence.FetchType.EAGER;
 public abstract class Account {
 
   @Id
+  @GeneratedValue
+  Long id;
   @Column(unique = true)
   String iban;
   @ElementCollection(fetch = EAGER)

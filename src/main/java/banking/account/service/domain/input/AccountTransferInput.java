@@ -1,5 +1,6 @@
 package banking.account.service.domain.input;
 
+import banking.account.service.validation.EqualIban;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
+@EqualIban
 public class AccountTransferInput extends AccountDepositInput {
 
   @NotNull(message = "Receiving IBAN should always be 22 characters long")

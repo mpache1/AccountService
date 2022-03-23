@@ -31,7 +31,7 @@ public class AccountControllerAdvice {
 
   @ExceptionHandler(ConstraintViolationException.class)
   public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException exception) {
-    log.info(exception.getMessage());
+    log.info("IBAN is already assigned to another account");
     return ResponseEntity.status(BAD_REQUEST).body("IBAN is already assigned to another account");
   }
 
