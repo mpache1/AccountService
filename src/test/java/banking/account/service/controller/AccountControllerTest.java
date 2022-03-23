@@ -47,7 +47,6 @@ public class AccountControllerTest {
 
   private static final String IBAN = "DE90123456781234567890";
   private static final String ASSOCIATED_IBAN = "DE90123456781234567891";
-  private static final BigDecimal AMOUNT = new BigDecimal("100.00");
 
   @MockBean
   private AccountService accountServiceMock;

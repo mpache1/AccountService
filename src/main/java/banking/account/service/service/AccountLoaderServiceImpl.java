@@ -19,24 +19,20 @@ public class AccountLoaderServiceImpl implements AccountLoaderService {
 
   @Override
   public Account loadAccountByIban(String iban) {
-    if (iban != null) {
-      iban = iban.toUpperCase();
-      Optional<Account> loadedAccount = Optional.ofNullable(accountRepository.findAccountByIban(iban));
-      if (loadedAccount.isPresent()) {
-        return loadedAccount.get();
-      }
+    iban = iban.toUpperCase();
+    Optional<Account> loadedAccount = Optional.ofNullable(accountRepository.findAccountByIban(iban));
+    if (loadedAccount.isPresent()) {
+      return loadedAccount.get();
     }
     throw new AccountNotFoundException(iban);
   }
 
   @Override
   public CheckingAccount loadCheckingAccountByIban(String iban) {
-    if (iban != null) {
-      iban = iban.toUpperCase();
-      Optional<CheckingAccount> loadedAccount = Optional.ofNullable(checkingsAccountRepository.findCheckingAccountByIban(iban));
-      if (loadedAccount.isPresent()) {
-        return loadedAccount.get();
-      }
+    iban = iban.toUpperCase();
+    Optional<CheckingAccount> loadedAccount = Optional.ofNullable(checkingsAccountRepository.findCheckingAccountByIban(iban));
+    if (loadedAccount.isPresent()) {
+      return loadedAccount.get();
     }
     throw new AccountNotFoundException(iban);
   }
