@@ -13,7 +13,7 @@ A basic Banking-Account Service
 - From every Account the current Balance and Account-History can be requested
 
 
-- All Accounts can be requested and filtered by Type (checking, saving, privateloan)
+- All existing Accounts can be requested and filtered by Type (checking, saving, privateloan)
 
 
 - It is possible to deposit money to every Account
@@ -21,7 +21,7 @@ A basic Banking-Account Service
 
 - It is possible to transfer money from one Account to another
     - Private-Loan-Accounts can only receive money
-    - Checking Accounts can transfer and receive money without restrictions
+    - Checking-Accounts can transfer and receive money without restrictions
     - Saving-Accounts can only transfer money to their associated Accounts
 
 ### Codeowner
