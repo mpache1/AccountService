@@ -13,6 +13,9 @@ A basic Banking-Account Service
 - From every Account the current Balance and Account-History can be requested
 
 
+- All Accounts can be requested and filtered by Type (checking, saving, privateloan)
+
+
 - It is possible to deposit money to every Account
 
 
