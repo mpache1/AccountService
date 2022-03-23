@@ -14,10 +14,4 @@ class AccountUtilsTest {
     String result = AccountUtils.formatBalanceForOutput(new BigDecimal("100.00"));
     assertEquals(expected, result);
   }
-
-  @Test
-  public void formatBalanceForOutputNullCheck() {
-    String result = AccountUtils.formatBalanceForOutput(null);
-    assertNull(result);
-  }
 }
