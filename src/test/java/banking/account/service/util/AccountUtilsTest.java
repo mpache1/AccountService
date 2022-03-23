@@ -10,7 +10,7 @@ class AccountUtilsTest {
 
   @Test
   public void formatBalanceForOutput() {
-    String expected = "100,00 €";
+    String expected = "100,00\u00A0\u20AC";
     String result = AccountUtils.formatBalanceForOutput(new BigDecimal("100.00"));
     assertEquals(expected, result);
   }
