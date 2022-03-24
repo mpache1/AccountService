@@ -90,3 +90,7 @@ curl -H "Content-Type: application/json" -X PUT --data '{"iban":"DE9012345678123
 ### Runs github-actions on push
 - Java CI with Maven
 - CodeQL
+
+### License
+- MIT License
+
