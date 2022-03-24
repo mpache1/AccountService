@@ -26,7 +26,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static banking.account.service.domain.AccountType.SAVING;
 import static java.math.BigDecimal.ZERO;
@@ -220,7 +222,7 @@ public class AccountControllerTest {
     List<Account> accounts = List.of(savingsAccount, checkingAccount);
     List<AccountOutputDTO> accountOutputs = List.of(checkingAccountOutput, savingAccountOutput);
 
-    given(accountServiceMock.getAccounts(new ArrayList<>())).willReturn(accounts);
+    given(accountServiceMock.getAccounts(new HashSet<>())).willReturn(accounts);
     given(accountOutputTransformerMock.transformAccounts(accounts)).willReturn(accountOutputs);
 
     MockHttpServletResponse response = mvc.perform(get("/v1/accounts").contentType(APPLICATION_JSON)
@@ -237,7 +239,7 @@ public class AccountControllerTest {
     CheckingAccount checkingAccount = new CheckingAccount(IBAN);
     AccountOutputDTO savingAccountOutput = new AccountOutputDTO(IBAN, ASSOCIATED_IBAN, AccountUtils.formatBalanceForOutput(ZERO), "SAVING", "not locked", new ArrayList<>());
 
-    List<AccountType> types = List.of(SAVING);
+    Set<AccountType> types = Set.of(SAVING);
 
     List<Account> accounts = List.of(savingsAccount, checkingAccount);
     List<AccountOutputDTO> accountOutputs = List.of(savingAccountOutput);

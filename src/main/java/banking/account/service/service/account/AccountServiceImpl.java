@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -54,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public List<Account> getAccounts(List<AccountType> accountTypes) {
+  public List<Account> getAccounts(Set<AccountType> accountTypes) {
     Iterable<Account> loadedAccounts = accountRepository.findAll();
     List<Account> result = StreamSupport.stream(loadedAccounts.spliterator(), false)
         .collect(Collectors.toList());
@@ -64,7 +65,7 @@ public class AccountServiceImpl implements AccountService {
     return result;
   }
 
-  private List<Account> filterAccountsByTypes(List<Account> accounts, List<AccountType> accountTypes) {
+  private List<Account> filterAccountsByTypes(List<Account> accounts, Set<AccountType> accountTypes) {
     return accounts.stream()
         .filter(account -> accountTypes.contains(account.getAccountType()))
         .collect(Collectors.toList());

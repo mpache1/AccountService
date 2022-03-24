@@ -6,6 +6,7 @@ import banking.account.service.domain.AccountType;
 import banking.account.service.domain.input.AccountSavingInput;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AccountService {
 
@@ -21,5 +22,5 @@ public interface AccountService {
 
   void unlockAccount(AccountInput transaction);
 
-  List<Account> getAccounts(List<AccountType> accountTypes);
+  List<Account> getAccounts(Set<AccountType> accountTypes);
 }

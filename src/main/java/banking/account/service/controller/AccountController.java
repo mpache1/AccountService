@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static banking.account.service.util.AccountUtils.formatBalanceForOutput;
 import static java.util.Arrays.asList;
@@ -100,7 +102,7 @@ public class AccountController {
 
   @GetMapping("/accounts")
   private ResponseEntity<List<AccountOutputDTO>> getAccounts(@RequestParam(value = "type", required = false) String[] type) {
-    List<AccountType> typeList = type != null ? accountTypesInputTransformer.transformAccountInput(asList(type)) : new ArrayList<>();
+    Set<AccountType> typeList = type != null ? accountTypesInputTransformer.transformAccountInput(asList(type)) : new HashSet<>();
     List<Account> accounts = accountService.getAccounts(typeList);
     List<AccountOutputDTO> accountOutputs = accountOutputTransformer.transformAccounts(accounts);
     return ResponseEntity.status(OK).body(accountOutputs);

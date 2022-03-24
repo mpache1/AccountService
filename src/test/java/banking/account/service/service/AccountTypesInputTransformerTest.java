@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
 import java.util.List;
+import java.util.Set;
 
 import static banking.account.service.domain.AccountType.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +26,7 @@ class AccountTypesInputTransformerTest {
   @Test
   void transformAccountInput() {
     List<String> inputStrings = List.of("saving", "checking", "privateloan", "financing");
-    List<AccountType> results = underTest.transformAccountInput(inputStrings);
+    Set<AccountType> results = underTest.transformAccountInput(inputStrings);
     assertEquals(results.size(), 3);
     assertTrue(results.contains(SAVING));
     assertTrue(results.contains(CHECKING));

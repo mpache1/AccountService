@@ -3,9 +3,10 @@ package banking.account.service.service.transformer;
 import banking.account.service.domain.AccountType;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AccountTypesInputTransformer {
 
-  List<AccountType> transformAccountInput(List<String> accontTypeStrings);
+  Set<AccountType> transformAccountInput(List<String> accontTypeStrings);
 
 }

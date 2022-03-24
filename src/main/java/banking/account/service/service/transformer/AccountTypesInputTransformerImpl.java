@@ -4,8 +4,10 @@ import banking.account.service.domain.AccountType;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static banking.account.service.domain.AccountType.CHECKING;
@@ -26,10 +28,10 @@ public class AccountTypesInputTransformerImpl implements AccountTypesInputTransf
   }
 
   @Override
-  public List<AccountType> transformAccountInput(List<String> accontTypeStrings) {
+  public Set<AccountType> transformAccountInput(List<String> accontTypeStrings) {
     return accontTypeStrings.stream()
         .filter(ACCOUNT_TYP_MAP::containsKey)
         .map(ACCOUNT_TYP_MAP::get)
-        .collect(Collectors.toList());
+        .collect(Collectors.toSet());
   }
 }

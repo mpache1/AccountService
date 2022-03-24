@@ -15,7 +15,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static banking.account.service.domain.AccountType.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -143,7 +145,7 @@ public class AccountServiceTest {
     Iterable<Account> loadedAccounts = new ArrayIterator<>(new Account[] {privateLoanAccount, checkingAccount, savingsAccount});
     when(accountRepositoryMock.findAll()).thenReturn(loadedAccounts);
 
-    List<Account> loadedAccountList = underTest.getAccounts(new ArrayList<>());
+    List<Account> loadedAccountList = underTest.getAccounts(new HashSet<>());
 
     verify(accountRepositoryMock).findAll();
 
@@ -161,7 +163,7 @@ public class AccountServiceTest {
     Iterable<Account> loadedAccounts = new ArrayIterator<>(new Account[] {privateLoanAccount, checkingAccount, savingsAccount});
     when(accountRepositoryMock.findAll()).thenReturn(loadedAccounts);
 
-    List<Account> loadedAccountList = underTest.getAccounts(List.of(CHECKING, SAVING));
+    List<Account> loadedAccountList = underTest.getAccounts(Set.of(CHECKING, SAVING));
 
     verify(accountRepositoryMock).findAll();
 
