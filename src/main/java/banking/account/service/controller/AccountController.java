@@ -11,6 +11,7 @@ import banking.account.service.service.transformer.AccountTypesInputTransformer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,9 +28,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static banking.account.service.util.AccountUtils.formatBalanceForOutput;
 import static java.util.Arrays.asList;
+import static java.util.List.of;
+import static java.util.Locale.*;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -39,6 +43,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping(value = "/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccountController {
 
+  private MessageSource messageSource;
   private AccountService accountService;
   private AccountOutputTransformer accountOutputTransformer;
   private AccountTypesInputTransformer accountTypesInputTransformer;
@@ -47,15 +52,15 @@ public class AccountController {
   public ResponseEntity<AccountOutputDTO> createCheckingAccount(@RequestBody @Valid AccountInput transaction) {
     Account checkingAccount = accountService.createCheckingAccount(transaction);
     AccountOutputDTO accountOutput = accountOutputTransformer.transformAccount(checkingAccount);
-    log.info(transaction.getIban() + " created");
+    log.info(messageSource.getMessage("account.created", of(transaction.getIban()).toArray(), ENGLISH));
     return ResponseEntity.status(CREATED).body(accountOutput);
   }
 
   @PostMapping("/create/saving")
-  public ResponseEntity<AccountOutputDTO> createSavingAccount(@RequestBody @Valid AccountSavingInput accountInput) {
-    Account savingAccount = accountService.createSavingAccount(accountInput);
+  public ResponseEntity<AccountOutputDTO> createSavingAccount(@RequestBody @Valid AccountSavingInput transaction) {
+    Account savingAccount = accountService.createSavingAccount(transaction);
     AccountOutputDTO accountOutput = accountOutputTransformer.transformAccount(savingAccount);
-    log.info(accountInput.getIban() + " created");
+    log.info(messageSource.getMessage("account.created", of(transaction.getIban()).toArray(), ENGLISH));
     return ResponseEntity.status(CREATED).body(accountOutput);
   }
 
@@ -63,22 +68,24 @@ public class AccountController {
   public ResponseEntity<AccountOutputDTO> createPrivateLoanAccount(@RequestBody @Valid AccountInput transaction) {
     Account privateLoadAccount = accountService.createPrivateLoadAccount(transaction);
     AccountOutputDTO accountOutput = accountOutputTransformer.transformAccount(privateLoadAccount);
-    log.info(transaction.getIban() + " created");
+    log.info(messageSource.getMessage("account.created", of(transaction.getIban()).toArray(), ENGLISH));
     return ResponseEntity.status(CREATED).body(accountOutput);
   }
 
   @PutMapping("/lock")
   private ResponseEntity<String> lockAccount(@RequestBody @Valid AccountInput transaction) {
     accountService.lockAccount(transaction);
-    log.info(transaction.getIban() + " was locked");
-    return ResponseEntity.status(OK).body("Account: " + transaction.getIban() + " has been locked");
+    String message = messageSource.getMessage("account.locked", of(transaction.getIban()).toArray(), ENGLISH);
+    log.info(message);
+    return ResponseEntity.status(OK).body(message);
   }
 
   @PutMapping("/unlock")
   private ResponseEntity<String> unlockAccount(@RequestBody @Valid AccountInput transaction) {
     accountService.unlockAccount(transaction);
-    log.info(transaction.getIban() + " was unlocked");
-    return ResponseEntity.status(OK).body("Account: " + transaction.getIban() + " has been unlocked");
+    String message = messageSource.getMessage("account.unlocked", of(transaction.getIban()).toArray(), ENGLISH);
+    log.info(message);
+    return ResponseEntity.status(OK).body(message);
   }
 
   @GetMapping("/{iban}/balance")
@@ -115,5 +122,10 @@ public class AccountController {
   @Autowired
   public void setAccountService(AccountService accountService) {
     this.accountService = accountService;
+  }
+
+  @Autowired
+  public void setMessageSource(MessageSource messageSource) {
+    this.messageSource = messageSource;
   }
 }
