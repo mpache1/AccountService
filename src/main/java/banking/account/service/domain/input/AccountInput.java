@@ -19,6 +19,6 @@ public class AccountInput {
 
   @NotNull
   @Size(min = 22, max = 22, message = "IBAN should always be 22 characters long")
-  @Pattern(regexp="^$|[a-zA-Z ]+$", message="IBAN must not include special characters")
+  @Pattern(regexp="^[a-zA-Z0-9_.-]*$", message="IBAN must not include special characters")
   String iban;
 }

@@ -16,7 +16,7 @@ public class AccountTransferInput extends AccountDepositInput {
 
   @NotNull(message = "Receiving IBAN should always be 22 characters long")
   @Size(min = 22, max = 22, message = "IBAN should always be 22 characters long")
-  @Pattern(regexp="^$|[a-zA-Z ]+$", message="IBAN must not include special characters")
+  @Pattern(regexp="^[a-zA-Z0-9_.-]*$", message="IBAN must not include special characters")
   String receivingIban;
 
   public AccountTransferInput(String iban, String receivingIban, BigDecimal amount) {
