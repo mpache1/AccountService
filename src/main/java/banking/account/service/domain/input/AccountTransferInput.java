@@ -3,14 +3,11 @@ package banking.account.service.domain.input;
 import banking.account.service.validation.EqualIban;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-
-import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @Setter
