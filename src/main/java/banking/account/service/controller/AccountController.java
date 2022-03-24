@@ -1,9 +1,9 @@
 package banking.account.service.controller;
 
 import banking.account.service.domain.Account;
-import banking.account.service.domain.input.AccountInput;
 import banking.account.service.domain.AccountOutputDTO;
 import banking.account.service.domain.AccountType;
+import banking.account.service.domain.input.AccountInput;
 import banking.account.service.domain.input.AccountSavingInput;
 import banking.account.service.service.account.AccountService;
 import banking.account.service.service.transformer.AccountOutputTransformer;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,12 +27,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static banking.account.service.util.AccountUtils.formatBalanceForOutput;
 import static java.util.Arrays.asList;
 import static java.util.List.of;
-import static java.util.Locale.*;
+import static java.util.Locale.ENGLISH;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -89,14 +87,13 @@ public class AccountController {
   }
 
   @GetMapping("/{iban}/balance")
-  private ResponseEntity<String> getAccountBalance(@PathVariable() @Size(min = 22, max = 22) String iban) {
+  private ResponseEntity<String> getAccountBalance(@PathVariable @Valid @Size(min = 22, max = 22) String iban) {
     Account account = accountService.findAccount(iban);
     return ResponseEntity.status(OK).body(formatBalanceForOutput(account.getBalance()));
   }
 
-  @Validated
   @GetMapping("/{iban}/history")
-  private ResponseEntity<List<String>> getAccountHistory(@PathVariable() @Size(min = 22, max = 22) String iban) {
+  private ResponseEntity<List<String>> getAccountHistory(@PathVariable @Size(min = 22, max = 22) String iban) {
     Account account = accountService.findAccount(iban);
     return ResponseEntity.status(OK).body(account.getAccountHistory());
   }

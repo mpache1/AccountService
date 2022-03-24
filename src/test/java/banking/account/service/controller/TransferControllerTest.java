@@ -71,7 +71,7 @@ public class TransferControllerTest {
             .andReturn().getResponse();
 
     response.setCharacterEncoding("UTF-8");
-    then(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    then(response.getStatus()).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED.value());
     then(response.getContentAsString()).isEqualTo(expectedResult);
   }
 

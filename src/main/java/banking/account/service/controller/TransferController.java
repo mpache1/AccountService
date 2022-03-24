@@ -37,7 +37,7 @@ public class TransferController {
     if (transferPossible) {
       return ResponseEntity.status(HttpStatus.OK).body(message);
     }
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+    return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(message);
   }
 
   private String buildResult(AccountTransferInput input, boolean transferPossile) {

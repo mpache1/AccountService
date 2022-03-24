@@ -2,10 +2,13 @@ package banking.account.service.domain.input;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Setter
 @Getter

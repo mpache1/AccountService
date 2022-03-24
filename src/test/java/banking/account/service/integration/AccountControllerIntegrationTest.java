@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AccountControllerIntegrationTest {
@@ -106,7 +107,7 @@ public class AccountControllerIntegrationTest {
     ResponseEntity<String> responseEntity =
         this.restTemplate.postForEntity("http://localhost:" + port + "/v1/create/privateloan", accountInput, String.class);
 
-    assertEquals(responseEntity.getStatusCode(), BAD_REQUEST);
+    assertEquals(responseEntity.getStatusCode(), CONFLICT);
   }
 
   @Test
