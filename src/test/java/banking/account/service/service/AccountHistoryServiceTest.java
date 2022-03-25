@@ -30,6 +30,8 @@ class AccountHistoryServiceTest {
   private AccountHistoryServiceImpl underTest;
   @Mock
   private MessageSource messageSourceMock;
+  @Mock
+  private TimeStampService timeStampServiceMock;
 
   @BeforeEach
   public void setUp() {
@@ -39,8 +41,9 @@ class AccountHistoryServiceTest {
   @Test
   void updateAccountHistoryForDeposit() {
     CheckingAccount checkingAccount = new CheckingAccount(IBAN_1);
-    String expected = "+" + formatBalanceForOutput(AMOUNT) + " has been deposited";
+    String expected = "25.03.2022-21:26 +" + formatBalanceForOutput(AMOUNT) + " has been deposited";
 
+    when(timeStampServiceMock.generateTimeStamp()).thenReturn("25.03.2022-21:26");
     when(messageSourceMock.getMessage(eq("account.histoty.deposit"), any(), any())).thenReturn(expected);
 
     underTest.updateAccountHistoryForDeposit(checkingAccount, AMOUNT);
@@ -57,9 +60,10 @@ class AccountHistoryServiceTest {
     SavingsAccount savingsAccount = new SavingsAccount(IBAN_2, IBAN_1);
     String formatedAmount = formatBalanceForOutput(AMOUNT);
 
-    String expected1 = "-" + formatedAmount + " transfered to " + IBAN_2;
-    String expected2 = "+" + formatedAmount + " transfered from " + IBAN_1;
+    String expected1 = "25.03.2022-21:26 -" + formatedAmount + " transfered to " + IBAN_2;
+    String expected2 = "25.03.2022-21:26 +" + formatedAmount + " transfered from " + IBAN_1;
 
+    when(timeStampServiceMock.generateTimeStamp()).thenReturn("25.03.2022-21:26");
     when(messageSourceMock.getMessage(eq("account.history.transfer.to"), any(), any())).thenReturn(expected1);
     when(messageSourceMock.getMessage(eq("account.history.transfer.from"), any(), any())).thenReturn(expected2);
 
