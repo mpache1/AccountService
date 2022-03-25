@@ -70,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
     return loadedAccounts;
   }
 
-  public static Specification<Account> accountTypeContain(Set<AccountType> accountTypes) {
+  private static Specification<Account> accountTypeContain(Set<AccountType> accountTypes) {
     return (account, cq, cb) -> account.get("accountType").in(accountTypes);
   }
 
