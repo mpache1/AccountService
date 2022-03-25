@@ -9,10 +9,17 @@ import banking.account.service.domain.input.AccountSavingInput;
 import banking.account.service.repository.AccountRepository;
 import banking.account.service.service.account.AccountServiceImpl;
 import com.fasterxml.jackson.databind.util.ArrayIterator;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,6 +32,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
@@ -142,7 +151,7 @@ public class AccountServiceTest {
     PrivateLoanAccount privateLoanAccount = new PrivateLoanAccount(IBAN_1);
     CheckingAccount checkingAccount = new CheckingAccount(IBAN_2);
     SavingsAccount savingsAccount = new SavingsAccount(IBAN_3, IBAN_2);
-    Iterable<Account> loadedAccounts = new ArrayIterator<>(new Account[] {privateLoanAccount, checkingAccount, savingsAccount});
+    List<Account> loadedAccounts = List.of(privateLoanAccount, checkingAccount, savingsAccount);
     when(accountRepositoryMock.findAll()).thenReturn(loadedAccounts);
 
     List<Account> loadedAccountList = underTest.getAccounts(new HashSet<>());
@@ -157,15 +166,16 @@ public class AccountServiceTest {
 
   @Test
   public void getAccountWithFilter() {
-    PrivateLoanAccount privateLoanAccount = new PrivateLoanAccount(IBAN_1);
     CheckingAccount checkingAccount = new CheckingAccount(IBAN_2);
     SavingsAccount savingsAccount = new SavingsAccount(IBAN_3, IBAN_2);
-    Iterable<Account> loadedAccounts = new ArrayIterator<>(new Account[] {privateLoanAccount, checkingAccount, savingsAccount});
-    when(accountRepositoryMock.findAll()).thenReturn(loadedAccounts);
+    List<Account> loadedAccounts = List.of(checkingAccount, savingsAccount);
+
+    ArgumentCaptor<Specification<Account>> specificationsCaptor = ArgumentCaptor.forClass(Specification.class);
+    BDDMockito.given(accountRepositoryMock.findAll(specificationsCaptor.capture())).willReturn(loadedAccounts);
 
     List<Account> loadedAccountList = underTest.getAccounts(Set.of(CHECKING, SAVING));
 
-    verify(accountRepositoryMock).findAll();
+    verify(accountRepositoryMock).findAll(specificationsCaptor.capture());
 
     assertEquals(loadedAccountList.size(), 2);
     assertTrue(loadedAccountList.contains(savingsAccount));

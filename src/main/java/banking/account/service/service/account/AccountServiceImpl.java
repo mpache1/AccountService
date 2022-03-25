@@ -10,10 +10,14 @@ import banking.account.service.domain.input.AccountSavingInput;
 import banking.account.service.repository.AccountRepository;
 import banking.account.service.service.AccountLoaderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -56,19 +60,18 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public List<Account> getAccounts(Set<AccountType> accountTypes) {
-    Iterable<Account> loadedAccounts = accountRepository.findAll();
-    List<Account> result = StreamSupport.stream(loadedAccounts.spliterator(), false)
-        .collect(Collectors.toList());
-    if (!accountTypes.isEmpty()) {
-      result = filterAccountsByTypes(result, accountTypes);
+    List<Account> loadedAccounts;
+    if (accountTypes.isEmpty()) {
+      loadedAccounts = accountRepository.findAll();
     }
-    return result;
+    else {
+      loadedAccounts = accountRepository.findAll(accountTypeContain(accountTypes));
+    }
+    return loadedAccounts;
   }
 
-  private List<Account> filterAccountsByTypes(List<Account> accounts, Set<AccountType> accountTypes) {
-    return accounts.stream()
-        .filter(account -> accountTypes.contains(account.getAccountType()))
-        .collect(Collectors.toList());
+  public static Specification<Account> accountTypeContain(Set<AccountType> accountTypes) {
+    return (account, cq, cb) -> account.get("accountType").in(accountTypes);
   }
 
   private void lockAccount(String iban, boolean lock) {

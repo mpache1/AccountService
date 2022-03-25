@@ -1,11 +1,17 @@
 package banking.account.service.repository;
 
 import banking.account.service.domain.Account;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface AccountRepository extends CrudRepository<Account, Long> {
+import java.util.List;
+
+public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpecificationExecutor<Account> {
 
   Account findAccountByIban(String iban);
 
-  Iterable<Account> findAll();
+  List<Account> findAll();
+
+  List<Account> findAll(Specification specification);
 }

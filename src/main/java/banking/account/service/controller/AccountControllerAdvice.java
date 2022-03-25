@@ -6,18 +6,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.List;
 import java.util.Locale;
 
-import static java.util.List.*;
-import static org.springframework.http.HttpStatus.*;
+import static java.util.List.of;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.LOCKED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Slf4j
 @ControllerAdvice
@@ -40,7 +40,7 @@ public class AccountControllerAdvice {
   @ExceptionHandler(ConstraintViolationException.class)
   public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException exception) {
     String message = messageSource.getMessage("iban.already.assigned", of().toArray(), Locale.ENGLISH);
-    log.info(message);
+    log.info(exception.getMessage());
     return ResponseEntity.status(CONFLICT).body(message);
   }
 

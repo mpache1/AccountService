@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -89,13 +87,13 @@ public class AccountController {
   }
 
   @GetMapping("/{iban}/balance")
-  private ResponseEntity<String> getAccountBalance(@PathVariable @Valid @Size(min = 22, max = 22) String iban) {
+  private ResponseEntity<String> getAccountBalance(@PathVariable String iban) {
     Account account = accountService.findAccount(iban);
     return ResponseEntity.status(OK).body(formatBalanceForOutput(account.getBalance()));
   }
 
   @GetMapping("/{iban}/history")
-  private ResponseEntity<List<String>> getAccountHistory(@PathVariable @Size(min = 22, max = 22) String iban) {
+  private ResponseEntity<List<String>> getAccountHistory(@PathVariable String iban) {
     Account account = accountService.findAccount(iban);
     return ResponseEntity.status(OK).body(account.getAccountHistory());
   }
